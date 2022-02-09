@@ -14,17 +14,16 @@ stages{
 					echo 'Skipping install terraform...already installed'
 				}else{
 					sh '''#!/bin/bash
-				    		  sudo apt-get install -y gnupg software-properties-common curl
-                  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-                  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-                  sudo apt-get update && sudo apt-get install terraform
+				    	sudo apt-get install -y gnupg software-properties-common curl
+                  			curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+                 			sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+                  			sudo apt-get update && sudo apt-get install terraform
                   
-                '''
-					
-				}
-			}
+               			 '''	
+			  }
+		      }
 		}
-	}
+	    }
 
 		
 	stage ('Creating directory for the configuration...'){
@@ -39,24 +38,9 @@ stages{
 			   }
     	 }
     	}
-  
-	 
-	 stage('knife SSL certificates from the server'){
-		steps{
-
-		      sh '''
-			    set +x
-			    cd ~/chef-repo
-			    cd ~/chef-repo/.chef
-			    sudo chmod -R 777 .
-			    sudo knife ssl fetch
-			 '''
-	  	}
-	 }
-  
 	 
 
-	stage('removing directory'){
+	stage('removing previous clone if exists'){
 		steps{
 		    script{
 		      def dirExists  = fileExists '$WORKSPACE/terraform-docker-nginx/'
@@ -64,7 +48,7 @@ stages{
 				 sh 'rm -rf $WORKSPACE/terraform-docker-nginx/'	    
 			       }
 	   	     }
-		    }		
+		 }		
 	   }
   
 	
@@ -79,10 +63,11 @@ stages{
 					 echo "$JOB_NAME"     
 				}
 			  	sh 'rm -rf $WORKSPACE/terraform-docker-nginx'
-          sh 'git clone https://github.com/abdallauno1/packages-apt.git' 
+        			sh 'https://github.com/abdallauno1/terraform-docker-nginx.git' 
 		   	     }
 		      }
 	  	}
+	
 	
 	 stage('Moving file to terraform dir'){
 		 steps{
@@ -94,8 +79,9 @@ stages{
 				   sh 'rm -rf ~/terraform/terraform-docker-nginx'
 				   sh 'mv $WORKSPACE/terraform-docker-nginx ~/terraform/terraform-docker-nginx/'
 				}
-		   	    }
+		   	   }
 	            }
+	
 	
 	   stage('Terrafrom init'){
 		 steps{
