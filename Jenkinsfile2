@@ -40,14 +40,14 @@ pipeline{
 		stage('Git Checkout Repo'){ 
 			steps{
 				def repoCloned  = fileExists '$WORKSPACE/terraform-docker-nginx'
-				    if (repoCloned){
+				 if (repoCloned){
 					  sh 'rm -rf $WORKSPACE/terraform-docker-nginx'
 				    }else{
-					 					 
+
 					 echo "$JOB_NAME"     
-				}
-			  	sh 'rm -rf $WORKSPACE/terraform-docker-nginx'
-				git branch: 'main', credentialsId: 'gitHub', url: 'https://github.com/abdallauno1/terraform-docker-nginx'
+					}
+			  		sh 'rm -rf $WORKSPACE/terraform-docker-nginx'
+					git branch: 'main', credentialsId: 'gitHub', url: 'https://github.com/abdallauno1/terraform-docker-nginx'
 				}
 			  
 			}
