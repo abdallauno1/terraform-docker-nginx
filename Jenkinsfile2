@@ -6,16 +6,23 @@ pipeline{
 		}
 	stages{
 		stage('Git Checkout Repo'){ 
-			  git branch: 'main', credentialsId: 'gitHub', url: 'https://github.com/abdallauno1/terraform-docker-nginx'
+			steps{
+				git branch: 'main', credentialsId: 'gitHub', url: 'https://github.com/abdallauno1/terraform-docker-nginx'
+				}
+			  
 			}
-		stage('Terraform Init'){
-				sh 'terraform init'
-		}
-		stage('Terraform Apply'){
-				sh 'terraform apply -auto-approve'
-		}
+			stage('Terraform Init'){
+				steps{
+					sh 'terraform init'
+				}
+			}
+			stage('Terraform Apply'){
+				steps{
+					sh 'terraform apply -auto-approve'
+				}
+			}
 
+
+		}
 	}	
-
-
 }
