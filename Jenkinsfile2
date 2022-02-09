@@ -5,8 +5,20 @@ pipeline{
   			terraform 'terraform'
 		}
 	stages{
+		stage('removing previous clone if exists'){
+		steps{
+		    script{
+		      def dirExists  = fileExists '$WORKSPACE/terraform-docker-nginx/'
+			   if (dirExists){
+				 sh 'rm -rf $WORKSPACE/terraform-docker-nginx/'	    
+			       }
+	   	     }
+		   }		
+	  	 }
+		 
 		stage('Git Checkout Repo'){ 
 			steps{
+				
 				git branch: 'main', credentialsId: 'gitHub', url: 'https://github.com/abdallauno1/terraform-docker-nginx'
 				}
 			  
