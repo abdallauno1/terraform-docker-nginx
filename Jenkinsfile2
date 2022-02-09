@@ -1,0 +1,21 @@
+pipeline{
+	
+	agent {label 'vagrant-worker'}
+	tools {
+  			terraform 'terraform'
+		}
+	stages{
+		stage('Git Checkout Repo'){ 
+			  git branch: 'main', credentialsId: 'gitHub', url: 'https://github.com/abdallauno1/terraform-docker-nginx'
+			}
+		stage('Terraform Init'){
+				sh 'terraform init'
+		}
+		stage('Terraform Apply'){
+				sh 'terraform apply -auto-approve'
+		}
+
+	}	
+
+
+}
